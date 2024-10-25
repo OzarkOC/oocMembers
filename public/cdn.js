@@ -1,23 +1,25 @@
 const loginButton = document.querySelector('[ooc="login"]');
 const modalOverlay = document.getElementById("modalOverlay");
 
+// Hide the modal overlay on page load
+modalOverlay.style.display = "none";
+
 // Function to open modal
 async function openModal() {
   try {
     const response = await fetch(
       "https://oocmembers.up.railway.app/api/login-modal"
     );
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
     const modalHtml = await response.text();
+    console.log(modalHtml); // Check what HTML is being returned
 
-    modalOverlay.innerHTML = modalHtml; // Insert the HTML directly
-    modalOverlay.style.display = "block"; // Show overlay
-
-    // Add event listener for the close button and form submission
-    const closeButton = document.getElementById("closeModal");
-    const form = document.getElementById("loginForm");
-
-    closeButton.addEventListener("click", closeModal);
-    form.addEventListener("submit", handleLogin);
+    modalOverlay.innerHTML = modalHtml; // This will insert the HTML directly into modalOverlay
+    modalOverlay.style.display = "flex"; // Show the overlay
   } catch (error) {
     console.error("Error fetching modal:", error);
   }
@@ -25,8 +27,8 @@ async function openModal() {
 
 // Function to close modal
 function closeModal() {
-  modalOverlay.style.display = "none";
-  modalOverlay.innerHTML = ""; // Clear the modal
+  modalOverlay.style.display = "none"; // Hide the modal overlay
+  modalOverlay.innerHTML = ""; // Clear the modal HTML
 }
 
 // Function to handle login submission
@@ -51,11 +53,9 @@ async function handleLogin(e) {
 
     // Check if the response was successful
     if (response.ok) {
-      // If the response was okay, handle successful login
       alert("Login successful");
-      closeModal(); // Ensure this function is defined to close your modal
+      closeModal(); // Close the modal on successful login
     } else {
-      // Handle error messages from server
       alert("Login failed: " + data.message);
     }
   } catch (error) {
@@ -63,13 +63,14 @@ async function handleLogin(e) {
     alert("Login failed: " + error.message); // Handle network errors
   }
 }
+
 // Event listener for login button
 loginButton.addEventListener("click", openModal);
 
 // Click outside modal to close
 modalOverlay.addEventListener("click", (event) => {
   if (event.target === modalOverlay) {
-    closeModal();
+    closeModal(); // Close the modal if the overlay is clicked
   }
 });
 
@@ -83,3 +84,10 @@ function loadCSS(filename) {
 
 // Load the style.css from the public folder
 loadCSS("/style.css");
+
+// Close button event listener
+document.addEventListener("click", (event) => {
+  if (event.target.id === "closeModal") {
+    closeModal(); // Close the modal when the close button is clicked
+  }
+});

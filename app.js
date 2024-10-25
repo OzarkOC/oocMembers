@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const Airtable = require("airtable");
 const path = require("path"); // Import path module
+require("dotenv").config();
 
 const app = express();
 app.use(
@@ -17,27 +18,26 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Serve login modal HTML
+// Serve login modal HTML
 app.get("/api/login-modal", (req, res) => {
   const loginModalHtml = `
-    <div id="modalOverlay">
-      <div id="loginModal">
-        <h2>Login</h2>
-        <form id="loginForm">
-          <label for="username">Username:</label>
-          <input type="text" id="username" name="username" required>
-          <br>
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" required>
-          <br><br>
-          <button type="submit">Submit</button>
-          <button type="button" id="closeModal">Cancel</button>
-        </form>
-      </div>
+    <div id="loginModal" style="display: flex; flex-direction: column; align-items: center;">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br><br>
+        <button type="submit">Submit</button>
+        <button type="button" id="closeModal">Cancel</button>
+      </form>
     </div>
-
   `;
   res.send(loginModalHtml);
 });
+
 // Use process.env to access environment variables
 const apiKey = process.env.AIRTABLE_API_KEY; // Use the key you set in Railway
 const baseId = process.env.AIRTABLE_BASE_ID; // Use the key you set in Railway
