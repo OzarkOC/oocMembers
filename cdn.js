@@ -5,7 +5,7 @@ const modalOverlay = document.getElementById("modalOverlay");
 async function openModal() {
   try {
     const response = await fetch(
-      "https://yourapp.up.railway.app/api/login-modal"
+      "https://oocmembers.up.railway.app/api/login-modal"
     );
     const modalHtml = await response.text();
 
