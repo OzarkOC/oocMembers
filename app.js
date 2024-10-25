@@ -1,18 +1,19 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
 const Airtable = require("airtable");
+const path = require("path"); // Import path module
 
+const app = express();
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow requests from this origin
-    methods: ["GET", "POST"], // Specify allowed methods
-    credentials: true, // Allow cookies to be sent with requests
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    credentials: true,
   })
 );
+app.use(express.json());
 
-app.use(express.json()); // To parse JSON requests
-// Serve static files from the 'public' directory
+// Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
 
 // Serve login modal HTML
@@ -35,33 +36,27 @@ app.get("/api/login-modal", (req, res) => {
   res.send(loginModalHtml);
 });
 
-// Handle login request
 // Login endpoint
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body; // Assuming you are sending email and password
 
   try {
-    // Fetch records from your Airtable table
     const records = await base("Users") // Replace 'Users' with your actual table name
       .select({
         filterByFormula: `{Email} = '${email}'`, // Adjust field name as necessary
       })
       .firstPage();
 
-    // Check if any records match the email
     if (records.length === 0) {
       return res.status(401).json({ message: "User not found" });
     }
 
-    // Assuming the password is stored in a field named 'Password'
     const user = records[0];
     if (user.fields.Password === password) {
-      // Successful login
       return res
         .status(200)
         .json({ message: "Login successful", user: user.fields });
     } else {
-      // Invalid password
       return res.status(401).json({ message: "Invalid password" });
     }
   } catch (error) {
@@ -70,5 +65,8 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+// Start the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
