@@ -1,10 +1,37 @@
 $(document).ready(function () {
-  // Function to open modal
+  // Function to create and show the modal overlay
   function openModal() {
+    // Create the modal overlay element
+    const modalOverlay = $("<div>", {
+      id: "modalOverlay",
+      css: {
+        display: "flex",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        background: "rgba(0, 0, 0, 0.7)",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+    });
+
+    // Fetch the modal HTML from the server
     $.get(
       "https://oocmembers.up.railway.app/api/login-modal",
       function (modalHtml) {
-        $("#modalOverlay").html(modalHtml).css("display", "flex"); // Show overlay and insert HTML
+        // Append the fetched modal HTML to the overlay
+        modalOverlay.append(modalHtml);
+        // Append the overlay to the body
+        $("body").append(modalOverlay);
+
+        // Click event to close the modal when clicking outside of it
+        modalOverlay.on("click", function (event) {
+          if (event.target === modalOverlay[0]) {
+            closeModal(modalOverlay);
+          }
+        });
       }
     ).fail(function () {
       console.error("Error fetching modal");
@@ -12,21 +39,13 @@ $(document).ready(function () {
   }
 
   // Function to close modal
-  function closeModal() {
-    $("#modalOverlay").hide(); // Hide the modal overlay
-    $("#modalOverlay").html(""); // Clear the modal HTML
+  function closeModal(modalOverlay) {
+    modalOverlay.remove(); // Remove the modal overlay from the DOM
   }
 
   // Handle click on all elements with ooc="login"
   $('[ooc="login"]').on("click", function () {
     openModal();
-  });
-
-  // Click outside modal to close
-  $(document).on("click", "#modalOverlay", function (event) {
-    if (event.target === this) {
-      closeModal();
-    }
   });
 
   // Handle login form submission
@@ -45,7 +64,7 @@ $(document).ready(function () {
       },
       function (data) {
         alert("Login successful");
-        closeModal(); // Close modal on success
+        closeModal($("#modalOverlay")); // Close modal on success
       }
     ).fail(function (xhr) {
       alert("Login failed: " + xhr.responseJSON.message);
