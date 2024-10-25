@@ -4,8 +4,6 @@ const Airtable = require("airtable");
 const path = require("path"); // Import path module
 require("dotenv").config();
 
-const cors = require("cors");
-
 const allowedOrigins = [
   "http://localhost:3000",
   "https://scrollchords.webflow.io",
