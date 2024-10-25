@@ -2,7 +2,7 @@
   "name": "oocmembers",
   "version": "1.0.0",
   "description": "Membership site with Aritable",
-  "main": "app.html",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
