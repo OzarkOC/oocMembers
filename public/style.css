@@ -1,0 +1,73 @@
+/* Full-screen overlay */
+#modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above everything else */
+}
+
+/* Centered modal box */
+#loginModal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%; /* Adjust width as desired, e.g., 50% or a fixed pixel width */
+  max-width: 400px; /* Ensure it doesn't get too wide */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for some depth */
+  z-index: 1001; /* Above overlay */
+}
+
+/* Form styling inside modal */
+#loginModal h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+#loginModal form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#loginModal label {
+  align-self: flex-start;
+  margin: 5px 0 5px;
+}
+
+#loginModal input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#loginModal button {
+  padding: 8px 16px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+#loginModal button:hover {
+  background-color: #0056b3;
+}
+
+/* Cancel button styling */
+#closeModal {
+  background-color: #f44336;
+  margin-top: 5px;
+}
+
+#closeModal:hover {
+  background-color: #d32f2f;
+}

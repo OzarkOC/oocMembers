@@ -19,22 +19,22 @@ app.use(express.static(path.join(__dirname, "public")));
 // Serve login modal HTML
 app.get("/api/login-modal", (req, res) => {
   const loginModalHtml = `
-    <div id="loginModal" style="
-    display: flex;
-    flex-direction: column;
-    align-items: center;">
-      <h2>Login</h2>
-      <form id="loginForm">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        <button type="submit">Submit</button>
-        <button type="button" id="closeModal">Cancel</button>
-      </form>
+    <div id="modalOverlay">
+      <div id="loginModal">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+          <br>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+          <br><br>
+          <button type="submit">Submit</button>
+          <button type="button" id="closeModal">Cancel</button>
+        </form>
+      </div>
     </div>
+
   `;
   res.send(loginModalHtml);
 });
@@ -45,6 +45,7 @@ const base = new Airtable({ apiKey: apiKey }).base(baseId);
 
 // Login endpoint
 app.post("/api/login", async (req, res) => {
+  console.log("Recieved login data:", req.body);
   const { email, password } = req.body; // Assuming you are sending email and password
 
   try {
@@ -60,11 +61,15 @@ app.post("/api/login", async (req, res) => {
 
     const user = records[0];
     if (user.fields.Password === password) {
-      return res
-        .status(200)
-        .json({ message: "Login successful", user: user.fields });
+      return res.status(200).json({
+        success: true,
+        message: "Login successful",
+        user: user.fields,
+      });
     } else {
-      return res.status(401).json({ message: "Invalid password" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid password" });
     }
   } catch (error) {
     console.error("Error fetching from Airtable:", error);

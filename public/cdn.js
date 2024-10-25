@@ -33,7 +33,7 @@ function closeModal() {
 async function handleLogin(e) {
   e.preventDefault();
 
-  const username = document.getElementById("username").value;
+  const email = document.getElementById("username").value; // Use email for the correct field
   const password = document.getElementById("password").value;
 
   // Send login request
@@ -43,22 +43,26 @@ async function handleLogin(e) {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }), // Ensure field names match the server's expectations
       }
     );
 
     const data = await response.json();
-    if (data.success) {
+
+    // Check if the response was successful
+    if (response.ok) {
+      // If the response was okay, handle successful login
       alert("Login successful");
-      closeModal();
+      closeModal(); // Ensure this function is defined to close your modal
     } else {
+      // Handle error messages from server
       alert("Login failed: " + data.message);
     }
   } catch (error) {
     console.error("Login error:", error);
+    alert("Login failed: " + error.message); // Handle network errors
   }
 }
-
 // Event listener for login button
 loginButton.addEventListener("click", openModal);
 
@@ -68,3 +72,14 @@ modalOverlay.addEventListener("click", (event) => {
     closeModal();
   }
 });
+
+// Function to dynamically load a CSS file
+function loadCSS(filename) {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = filename;
+  document.head.appendChild(link);
+}
+
+// Load the style.css from the public folder
+loadCSS("/style.css");
