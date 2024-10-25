@@ -4,14 +4,31 @@ const Airtable = require("airtable");
 const path = require("path"); // Import path module
 require("dotenv").config();
 
-const app = express();
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
+const cors = require("cors");
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://scrollchords.webflow.io",
+  "https://ozarkOC.org",
+  "https://ozarkoutpostcenter.org",
+];
+
+// Function to dynamically allow origins
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error("Not allowed by CORS")); // Reject the request
+    }
+  },
+  methods: ["GET", "POST"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Serve static files from the "public" directory
