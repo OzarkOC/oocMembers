@@ -1,11 +1,17 @@
 const express = require("express");
-const path = require("path");
-const cors = require("cors"); // Import CORS
+const cors = require("cors");
 const app = express();
+const Airtable = require("airtable");
 
-app.use(cors()); // Enable CORS for all routes
-app.use(express.json()); // to parse JSON requests
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Allow requests from this origin
+    methods: ["GET", "POST"], // Specify allowed methods
+    credentials: true, // Allow cookies to be sent with requests
+  })
+);
 
+app.use(express.json()); // To parse JSON requests
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -30,14 +36,37 @@ app.get("/api/login-modal", (req, res) => {
 });
 
 // Handle login request
-app.post("/api/login", (req, res) => {
-  const { username, password } = req.body;
+// Login endpoint
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body; // Assuming you are sending email and password
 
-  // Mock authentication (replace with your actual logic)
-  if (username === "user" && password === "pass") {
-    res.json({ success: true, message: "Login successful" });
-  } else {
-    res.json({ success: false, message: "Invalid credentials" });
+  try {
+    // Fetch records from your Airtable table
+    const records = await base("Users") // Replace 'Users' with your actual table name
+      .select({
+        filterByFormula: `{Email} = '${email}'`, // Adjust field name as necessary
+      })
+      .firstPage();
+
+    // Check if any records match the email
+    if (records.length === 0) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    // Assuming the password is stored in a field named 'Password'
+    const user = records[0];
+    if (user.fields.Password === password) {
+      // Successful login
+      return res
+        .status(200)
+        .json({ message: "Login successful", user: user.fields });
+    } else {
+      // Invalid password
+      return res.status(401).json({ message: "Invalid password" });
+    }
+  } catch (error) {
+    console.error("Error fetching from Airtable:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
