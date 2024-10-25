@@ -71,7 +71,24 @@ app.post("/api/login", async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+// Endpoint to get all users
+app.get("/api/users", async (req, res) => {
+  try {
+    const records = await base("Users").select().all(); // Get all records from the Users table
 
+    const users = records.map((record) => ({
+      id: record.id,
+      ...record.fields, // Spread the fields into the user object
+    }));
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error("Error fetching users from Airtable:", error);
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+});
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
