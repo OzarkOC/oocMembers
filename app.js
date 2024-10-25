@@ -1,6 +1,13 @@
 const express = require("express");
+const path = require("path");
+const cors = require("cors"); // Import CORS
 const app = express();
+
+app.use(cors()); // Enable CORS for all routes
 app.use(express.json()); // to parse JSON requests
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
 
 // Serve login modal HTML
 app.get("/api/login-modal", (req, res) => {
