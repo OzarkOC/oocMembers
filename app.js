@@ -19,7 +19,10 @@ app.use(express.static(path.join(__dirname, "public")));
 // Serve login modal HTML
 app.get("/api/login-modal", (req, res) => {
   const loginModalHtml = `
-    <div id="loginModal" style="display: block;">
+    <div id="loginModal" style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;">
       <h2>Login</h2>
       <form id="loginForm">
         <label for="username">Username:</label>
@@ -35,6 +38,10 @@ app.get("/api/login-modal", (req, res) => {
   `;
   res.send(loginModalHtml);
 });
+// Use process.env to access environment variables
+const apiKey = process.env.AIRTABLE_API_KEY; // Use the key you set in Railway
+const baseId = process.env.AIRTABLE_BASE_ID; // Use the key you set in Railway
+const base = new Airtable({ apiKey: apiKey }).base(baseId);
 
 // Login endpoint
 app.post("/api/login", async (req, res) => {
