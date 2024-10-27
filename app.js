@@ -87,7 +87,6 @@ app.post("/api/login", async (req, res) => {
         message: "Login successful",
         user: user.fields,
       });
-      alert("USER FOUND!", res.message);
     } else {
       return res
         .status(401)
