@@ -27,6 +27,10 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 app.use(express.json());
 
 // Serve static files from the "public" directory
