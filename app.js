@@ -72,12 +72,11 @@ app.post("/api/login", async (req, res) => {
 
   try {
     const records = await base("Users") // Replace 'Users' with your actual table name
-    console.log("Records:",records);
       .select({
         filterByFormula: `{Email} = '${email}'`, // Adjust field name as necessary
       })
       .firstPage();
-
+    console.log(records);
     if (records.length === 0) {
       return res.status(401).json({ message: "User not found" });
     }
