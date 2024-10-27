@@ -16,7 +16,6 @@ async function openModal() {
     }
 
     const modalHtml = await response.text();
-    console.log(modalHtml); // Check what HTML is being returned
 
     modalOverlay.innerHTML = modalHtml; // This will insert the HTML directly into modalOverlay
     modalOverlay.style.display = "flex"; // Show the overlay
