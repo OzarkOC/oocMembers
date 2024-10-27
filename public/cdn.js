@@ -31,8 +31,9 @@ function closeModal() {
 }
 
 // Function to handle login submission
+// Function to handle login submission
 async function handleLogin(e) {
-  e.preventDefault();
+  e.preventDefault(); // Prevent default form submission
 
   const email = document.getElementById("username").value; // Use email for the correct field
   const password = document.getElementById("password").value;
