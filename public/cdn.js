@@ -19,6 +19,9 @@ async function openModal() {
 
     modalOverlay.innerHTML = modalHtml; // This will insert the HTML directly into modalOverlay
     modalOverlay.style.display = "flex"; // Show the overlay
+    document
+      .getElementById("loginForm")
+      .addEventListener("submit", handleLogin);
   } catch (error) {
     console.error("Error fetching modal:", error);
   }
@@ -90,5 +93,3 @@ document.addEventListener("click", (event) => {
     closeModal(); // Close the modal when the close button is clicked
   }
 });
-
-document.getElementById("loginForm").addEventListener("submit", handleLogin);
