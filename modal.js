@@ -63,7 +63,7 @@ $(document).ready(function () {
         password: password,
       },
       function (data) {
-        alert("Login successful");
+        localStorage.setItem("userRecordId", data.user.id); // Save the record ID in local storage
         closeModal($("#modalOverlay")); // Close modal on success
       }
     ).fail(function (xhr) {
