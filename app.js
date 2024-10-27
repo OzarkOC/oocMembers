@@ -37,6 +37,7 @@ app.use(express.json());
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
 
 // Serve login modal HTML
 // Serve login modal HTML
@@ -66,11 +67,8 @@ const base = new Airtable({ apiKey: apiKey }).base(baseId);
 
 // Login endpoint
 app.post("/api/login", async (req, res) => {
-  // Test: retrieve all users without filtering to see available data
-  const records = await base("Users").select().firstPage();
-  console.log("All users:", records);
-
-  const { email, password } = req.body; // Assuming you are sending email and password
+  const { email, password } = req.body;
+  console.log("Received login data:", email, password); // Assuming you are sending email and password
 
   try {
     const records = await base("Users") // Replace 'Users' with your actual table name
@@ -89,6 +87,7 @@ app.post("/api/login", async (req, res) => {
         message: "Login successful",
         user: user.fields,
       });
+      alert("USER FOUND!", res.message);
     } else {
       return res
         .status(401)
