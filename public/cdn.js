@@ -31,7 +31,6 @@ function closeModal() {
 }
 
 // Function to handle login submission
-// Function to handle login submission
 async function handleLogin(e) {
   e.preventDefault(); // Prevent default form submission
 
@@ -91,3 +90,5 @@ document.addEventListener("click", (event) => {
     closeModal(); // Close the modal when the close button is clicked
   }
 });
+
+document.getElementById("loginForm").addEventListener("submit", handleLogin);
