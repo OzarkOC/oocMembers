@@ -26,7 +26,9 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors({ origin: "*", methods: ["GET", "POST"], credentials: true }));
+
 app.use((req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);
   next();
