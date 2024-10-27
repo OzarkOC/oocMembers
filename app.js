@@ -66,8 +66,10 @@ const base = new Airtable({ apiKey: apiKey }).base(baseId);
 
 // Login endpoint
 app.post("/api/login", async (req, res) => {
-  console.log("Headers:", req.headers); // Log headers
-  console.log("Request body:", req.body); // Log request body to verify JSON
+  // Test: retrieve all users without filtering to see available data
+  const records = await base("Users").select().firstPage();
+  console.log("All users:", records);
+
   const { email, password } = req.body; // Assuming you are sending email and password
 
   try {
@@ -76,7 +78,6 @@ app.post("/api/login", async (req, res) => {
         filterByFormula: `{Email} = '${email}'`, // Adjust field name as necessary
       })
       .firstPage();
-    console.log(records);
     if (records.length === 0) {
       return res.status(401).json({ message: "User not found" });
     }
