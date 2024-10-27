@@ -51,18 +51,20 @@ async function handleLogin(e) {
       }
     );
 
-    const data = await response.json();
+    // Check response content before attempting JSON parse
+    const textResponse = await response.text();
+    console.log("Response Text:", textResponse);
 
-    // Check if the response was successful
-    if (response.ok) {
-      alert("Login successful");
-      closeModal(); // Close the modal on successful login
-    } else {
-      alert("Login failed: " + data.message);
+    if (!response.ok) {
+      alert("Login failed: " + textResponse); // Notify with full response
+      return;
     }
+
+    const data = JSON.parse(textResponse); // Parse only if JSON is expected
+    alert("Login successful");
   } catch (error) {
     console.error("Login error:", error);
-    alert("Login failed: " + error.message); // Handle network errors
+    alert("Login failed: " + error.message);
   }
 }
 
