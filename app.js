@@ -29,10 +29,10 @@ const corsOptions = {
 // app.use(cors(corsOptions));
 app.use(cors({ origin: "*", methods: ["GET", "POST"], credentials: true }));
 
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log(`Incoming request: ${req.method} ${req.url}`);
+//   next();
+// });
 app.use(express.json());
 
 // Serve static files from the "public" directory
@@ -72,6 +72,7 @@ app.post("/api/login", async (req, res) => {
 
   try {
     const records = await base("Users") // Replace 'Users' with your actual table name
+    console.log("Records:",records);
       .select({
         filterByFormula: `{Email} = '${email}'`, // Adjust field name as necessary
       })
