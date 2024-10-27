@@ -71,3 +71,20 @@ $(document).ready(function () {
     });
   });
 });
+// Function to dynamically load a CSS file
+function loadCSS(filename) {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = filename;
+  document.head.appendChild(link);
+}
+
+// Load the style.css from the public folder
+loadCSS("/style.css");
+
+// Close button event listener
+document.addEventListener("click", (event) => {
+  if (event.target.id === "closeModal") {
+    closeModal(); // Close the modal when the close button is clicked
+  }
+});
