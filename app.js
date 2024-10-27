@@ -60,7 +60,8 @@ const base = new Airtable({ apiKey: apiKey }).base(baseId);
 
 // Login endpoint
 app.post("/api/login", async (req, res) => {
-  console.log("Recieved login data:", req.body);
+  console.log("Headers:", req.headers); // Log headers
+  console.log("Request body:", req.body); // Log request body to verify JSON
   const { email, password } = req.body; // Assuming you are sending email and password
 
   try {

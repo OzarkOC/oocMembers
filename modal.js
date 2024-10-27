@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  console.log("helloWorld");
   // Function to create and show the modal overlay
   function openModal() {
     // Create the modal overlay element
