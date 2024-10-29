@@ -8,7 +8,10 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "git:push": "git add . && git commit -m \"$(npm run get-commit-message)\" && git push",
+    "get-commit-message": "node -e \"console.log(require('readline-sync').question('Enter commit message: '))\"",
+    "publish:all": "npm run git:push && npm version patch && npm publish"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +20,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
-    "git": "^0.1.5"
+    "git": "^0.1.5",
+    "readline-sync": "^1.4.10"
   },
   "files": [
     "modal.js",
