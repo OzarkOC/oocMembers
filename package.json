@@ -1,6 +1,6 @@
 {
   "name": "@scrollchords/airmembers",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Membership site functionality with Airtable",
   "main": "app.js",
   "publishConfig": {
