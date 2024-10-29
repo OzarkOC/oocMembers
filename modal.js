@@ -64,7 +64,7 @@ $(document).ready(function () {
       },
       function (data) {
         console.log(data);
-        localStorage.setItem("userRecordId", data.user.id); // Save the record ID in local storage
+        localStorage.setItem("userRecordId", data); // Save the record ID in local storage
         closeModal($("#modalOverlay")); // Close modal on success
       }
     ).fail(function (xhr) {
