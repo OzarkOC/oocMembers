@@ -88,3 +88,12 @@ document.addEventListener("click", (event) => {
     closeModal(); // Close the modal when the close button is clicked
   }
 });
+
+document.querySelectorAll('[ooc="logout"]').forEach((button) => {
+  button.addEventListener("click", () => {
+    localStorage.removeItem("userRecordId"); // Clear the record ID from local storage
+    alert("You have been logged out.");
+    // Optional: Redirect to login page or refresh to reflect logout state
+    window.location.reload();
+  });
+});

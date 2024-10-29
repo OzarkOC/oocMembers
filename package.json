@@ -1,8 +1,11 @@
 {
-  "name": "oocmembers",
+  "name": "@scrollchords/airmembers",
   "version": "1.0.0",
-  "description": "Membership site with Aritable",
+  "description": "Membership site functionality with Airtable",
   "main": "app.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +18,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "git": "^0.1.5"
-  }
+  },
+  "files": [
+    "modal.js"
+  ]
 }

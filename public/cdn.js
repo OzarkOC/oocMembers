@@ -51,13 +51,13 @@ async function handleLogin(e) {
       }
     );
 
-      return;
     const data = await response.json();
 
     // Check if the response was successful
     if (response.ok) {
       alert("Login successful");
       closeModal(); // Close the modal on successful login
+      localStorage.setItem("userRecordId", data.user.id); // Save the record ID in local storage
     } else {
       alert("Login failed: " + data.message);
     }
