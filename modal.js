@@ -63,6 +63,7 @@ $(document).ready(function () {
         password: password,
       },
       function (data) {
+        console.log(data.user.id);
         localStorage.setItem("userRecordId", data.user.id); // Save the record ID in local storage
         closeModal($("#modalOverlay")); // Close modal on success
       }
